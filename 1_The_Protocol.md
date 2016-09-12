@@ -2,17 +2,17 @@
 
 RFC4511规范描述LDAP协议内容，编码，是LDAP技术的主体部分
 
-# 3 Protocol Model 协议模型
+# 3. Protocol Model 协议模型
 
 1. 客户端对服务器执行一个协议操作。在这个模型中，客户端发送一个描述操作的协议请求给服务器。服务器处理该请求，并返回该操作请求的回应信息。每一个操作的处理都是原子的。
 2. 服务器需要返回在LDAP协议中定义的回应信息，但是这个操作不是必须同步的。换句话说，多个请求和回应并发的在服务器和客户端之间交换时，不一定是顺序完成的。当然，如果必须使用同步通信，那需要在客户端程序中进行控制。
 3. LDAP核心协议的定义可以映射到X.500子集中，但不是一一对应的。
 
-## 3.1 Operation and LDAP Message Layer Relationship
+## 3.1. Operation and LDAP Message Layer Relationship
 
 协议操作在LDAP message层进行交换。当链接关闭时，如果可以的话，任何未完成的操作都会被丢弃；如果不能丢弃，则寄去完成操作但不返回给客户端。同时，当连接关闭时，客户端**绝对不能**假设未完成的操作已经成功或失败。
 
-# 4 Elements of Protocol 协议基础
+# 4. Elements of Protocol 协议基础
 
 LDAP协议使用ASN.1规范进行描述，使用ASN.1 BER编码规范进行传输。第5章详细说明了LDAP协议是如何编码和传输的。 为了支持未来对LDAP协议的扩展，对于尾部的无法识别的`SEQUENCE`标记，客户端和服务器**必须**忽略。
 
@@ -20,11 +20,11 @@ LDAP协议使用ASN.1规范进行描述，使用ASN.1 BER编码规范进行传�
 
 客户端通过读取`supportedLDAPVersion`消息的属性，来判断服务器服务器支持的协议版本。
 
-## 4.1 Common Elements
+## 4.1. Common Elements 通用封包
 
 本章节描述`LDAPMessage`封包格式
 
-### 4.1.1 Message Envelope
+### Message Envelope 消息封包
 
 下面是`LDAPMessage`格式定义：
 
@@ -63,7 +63,7 @@ MessageID ::= INTEGER (0 ..  maxInt)
 
 在其他情况下，客户端或服务器不能解析LDAP PDU，_应该_ 断开LDAP会话。否则，服务器**必须**返回适当的错误信息。
 
-#### 4.1.1.1 MessageID
+#### 4.1.1.1. MessageID
 
 请求中的`messageID`**必须**是一个非零整数，且在同一个会话中的每个请求的ID都不同。0被保留用于主动通知。一般情况下，`messageID`是一个自动的计数器。
 
@@ -134,11 +134,11 @@ LDAPResult ::= SEQUENCE {
 
 `diagnosticMessage`返回一些可读的诊断消息。这个消息的内容是非标准的，一般用于返回结果码的额外信息。如果没有，则为空。
 
-## Other operations
+## Other operations 其他操作
 
 章节4.2到章节4.14都是介绍具体的操作协议内容。太细节的东东了。如果需要具体的分析报文内容，再进行记录。
 
-# 5 Protocol Encoding, Connection, and Transfer 协议编码，链接和传输
+# 5. Protocol Encoding, Connection, and Transfer 协议编码，链接和传输
 
 LDAP协议运行在TCP协议之上。协议分层如下：
 
@@ -161,7 +161,7 @@ LDAP缺省使用389端口，如果使用SSL链接，则缺省使用636端口。�
 
 关闭LDAP会话，一般是客户端发送`UnbindRequest`消息，或服务器发送`Notice of Disconnection`通知。然后，停止`LDAP message layer`通信，关闭`SASL layer`，关闭`TLS layer`，最后断开TCP链接。
 
-# 6 Security Considerations
+# 6. Security Considerations 安全相关
 
 LDAP协议可以使用明文密码做简单认证，也可以使用SASL机制认证。也允许使用证书方式进行认证。
 
