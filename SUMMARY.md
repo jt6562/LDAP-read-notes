@@ -13,3 +13,5 @@
   - [RFC4517: 语法和匹配规则](ldap-protocol/7_RFC4517.md)
   - [RFC4518: 国际化字符预处理算法](ldap-protocol/8_RFC4518.md)
   - [RFC4519: 用户应用模式](ldap-protocol/9_RFC4519.md)
+
+- [OpenLDAP管理员手册](ldap-guide/OpenLDAP管理员手册.md)
